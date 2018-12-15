@@ -1,0 +1,160 @@
+//color for player1
+var col1 = {
+
+	w: 255,
+	r: 0,
+	g: 0,
+	b: 0,
+	s: 4,
+	sw: 4
+}
+//position for player1
+var pos1 = {
+
+	x: 25,
+	y: 200,
+	z: 0,
+	t: 20,
+	h: 70
+}
+//color for player2
+var col2 = {
+
+	w: 255,
+	r: 0,
+	g: 0,
+	b: 0,
+	s: 4,
+	sw: 4
+
+}
+//position for player2
+var pos2 = {
+
+	x: 524,
+	y: 200,
+	z: 0,
+	t: 20,
+	h: 70
+}
+//color for ball
+var ellcol1 = {
+
+	w: 255,
+	r: 0,
+	g: 0,
+	b: 0,
+	s: 2,
+	sw: 4
+}
+//position for ball
+var ellpos1 = {
+
+	x: 250,
+	y: 200,
+	z: 0,
+	t: 17.5,
+	h: 17.5,
+	s: 3
+};
+//score counting
+var score = {
+
+	p1: 0,
+	p2: 0,
+
+}
+
+
+function setup() {
+	createCanvas(550, 400);
+}
+
+function draw() {
+	background(0);
+	//player1
+	rectMode(CENTER);
+	fill(col1.w);
+	stroke(col1.s);
+	strokeWeight(col1.sw);
+	rect(pos1.x, pos1.y, pos1.t, pos1.h);
+	//player2
+	rectMode(CENTER);
+	fill(col2.w);
+	stroke(col2.s);
+	strokeWeight(col2.sw);
+	rect(pos2.x, pos2.y, pos2.t, pos2.h);
+	//ball
+	ellipseMode(CENTER);
+	fill(ellcol1.w);
+	stroke(ellcol1.s);
+	strokeWeight(ellcol1.sw);
+	ellipse(ellpos1.x, ellpos1.y, ellpos1.t, ellpos1.h);
+	//movement up for player1
+	if (keyIsDown(UP_ARROW)) {
+		pos2.y = pos2.y - 3;
+	}
+	//movement down for player1 	
+	if (keyIsDown(DOWN_ARROW)) {
+		pos2.y = pos2.y + 3;
+	}
+	//movement up for player2
+	if (keyIsDown(87)) {
+		pos1.y = pos1.y - 3;
+	}
+	//movement down for player2 	
+	if (keyIsDown(83)) {
+		pos1.y = pos1.y + 3;
+	}
+	//ball movement
+	if (ellpos1.x == 1) {
+		ellpos1.s = ellpos1.s + 3
+	}
+	if (ellpos1.x == width) {
+		ellpos1.s = ellpos1.s - 3
+	}
+	ellpos1.x = ellpos1.x + ellpos1.s;
+
+	if (ellpos1.x == width) {
+		score.p1 = score.p1 + 0.5
+	}
+	if (ellpos1.x == 1) {
+		score.p2 = score.p2 + 0.5
+	}
+	//prototype for scoreboard
+	textSize(34);
+	text(score.p1, 245, 30);
+	fill(255);
+	text(score.p2, 275, 30);
+	fill(255)
+	//prototype colision detection
+	if (getDistance(ellpos1.x, pos1.x) > ellpos1.radius + pos1.x) {
+
+		ellpos1.s = ellpos1.s - 3
+	} else {
+
+	}
+	//prototype colision detection
+	if (getDistance(ellpos1.x, pos2.x) > ellpos1.radius + pos2.x) {
+
+		ellpos1.s = ellpos1.s - 3
+	} else {
+
+	}
+}
+//Distance measurement for p1
+function getDistance(ellpos1x, ellpos1y, pos1x, pos1y) {
+
+	let xDistance = pos2.x - ellpos1.x;
+	let yDistance = pos2.y - ellpos1.y;
+
+	return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+}
+//Distance measurement for p2
+function getDistance(ellpos1x, ellpos1y, pos2x, pos2y) {
+
+	let xDistance = pos2.x - ellpos1.x;
+	let yDistance = pos2.y - ellpos1.y;
+
+	return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+}
